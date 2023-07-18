@@ -1,0 +1,540 @@
+
+1.Functional test case for name field
+
+
+// Import necessary libraries
+const { Builder, By, Key, until } = require('selenium-webdriver');
+const chrome = require('selenium-webdriver/chrome');
+
+async function runFunctionalTest() {
+  // Set up the Chrome browser
+  const options = new chrome.Options();
+  // Uncomment the next line if you want to run the browser in headless mode (without UI)
+  // options.headless();
+
+  const driver = await new Builder()
+    .forBrowser('chrome')
+    .setChromeOptions(options)
+    .build();
+
+  try {
+    // Navigate to the test page
+    await driver.get('https://www.hashtag-ca.com/careers/apply?jobcode=QAE001'); 
+
+    const nameField = await driver.findElement(By.id('name'));
+
+    // Test Case 1: Check if the name field is visible and enabled
+    if (await nameField.isDisplayed() && await nameField.isEnabled()) {
+      console.log('Test Case 1: The name field is visible and enabled - PASSED');
+    } else {
+      console.error('Test Case 1: The name field is not visible or enabled - FAILED');
+    }
+
+    // Test Case 2: Check if the cursor is visible when clicking on the name field
+    await nameField.click();
+    if (await nameField.equals(driver.switchTo().activeElement())) {
+      console.log('Test Case 2: The cursor is visible in the name field - PASSED');
+    } else {
+      console.error('Test Case 2: The cursor is not visible in the name field - FAILED');
+    }
+
+    // Test Case 3: Check if entering text works correctly
+    const testName = 'Palak Sachdeva'; // Replace this with the desired test name
+    await nameField.sendKeys(testName);
+    const enteredName = await nameField.getAttribute('value');
+    if (enteredName === testName) {
+      console.log('Test Case 3: Name entered correctly - PASSED');
+    } else {
+      console.error('Test Case 3: Name entered incorrectly - FAILED');
+    }
+
+
+  } catch (error) {
+    console.error('Error occurred:', error);
+  } finally {
+    // Close the browser after the tests are done
+    await driver.quit();
+  }
+}
+
+// Run the functional test
+runFunctionalTest();
+
+
+
+
+
+
+
+
+
+(2.) Functional test case for email field
+
+# Import required libraries
+import unittest
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+
+class EmailFieldTest(unittest.TestCase):
+
+    def setUp(self):
+        # Set up the Selenium WebDriver (in this example, Chrome WebDriver)
+        self.driver = webdriver.Chrome()
+        self.base_url = "https://www.hashtag-ca.com/careers/apply?jobcode=QAE001"  
+        self.driver.get(self.base_url)
+
+    def tearDown(self):
+        # Close the browser after each test case
+        self.driver.quit()
+
+    def test_valid_email(self):
+        # Test Scenario 1: Valid Email Address
+        email_input = self.driver.find_element_by_id("email")
+        email_input.send_keys("example@email.com")
+        email_input.send_keys(Keys.RETURN)
+
+        # Verify that the next step is displayed or the user is successfully registered/logged in
+       
+
+    def test_invalid_email(self):
+        # Test Scenario 2: Invalid Email Address
+        email_input = self.driver.find_element_by_id("email")
+        email_input.send_keys("invalid_email")
+        email_input.send_keys(Keys.RETURN)
+
+        # Verify that an error message is displayed indicating that the email format is invalid
+       
+
+    def test_empty_email_field(self):
+        # Test Scenario 3: Empty Email Field
+        email_input = self.driver.find_element_by_id("email")
+        email_input.send_keys(Keys.RETURN)
+
+        # Verify that an error message is displayed indicating that the email field is required
+       
+
+    def test_leading_trailing_spaces(self):
+        # Test Scenario 4: Email Address with Leading/Trailing Spaces
+        email_input = self.driver.find_element_by_id("email")
+        email_input.send_keys("  spaces@example.com ")
+        email_input.send_keys(Keys.RETURN)
+
+        # Verify that the email address is correctly trimmed, and the user can proceed
+        
+
+    def test_long_email_address(self):
+        # Test Scenario 5: Long Email Address
+        email_input = self.driver.find_element_by_id("email")
+        email_input.send_keys("a_very_long_email_address_that_exceeds_maximum_character_limit@example.com")
+        email_input.send_keys(Keys.RETURN)
+
+        # Verify that an error message is displayed indicating that the email address exceeds the maximum allowed character limit
+        
+
+    def test_special_characters_email(self):
+        # Test Scenario 6: Special Characters in Email Address
+        email_input = self.driver.find_element_by_id("email")
+        email_input.send_keys("email$address@example.com")
+        email_input.send_keys(Keys.RETURN)
+
+        # Verify that the email address with valid special characters is accepted
+        
+    def test_multiple_at_symbols_email(self):
+        # Test Scenario 7: Email Address with Multiple '@' Symbols
+        email_input = self.driver.find_element_by_id("email")
+        email_input.send_keys("multiple@@symbols@example.com")
+        email_input.send_keys(Keys.RETURN)
+
+        # Verify that an error message is displayed indicating an invalid email address
+        
+
+if __name__ == "__main__":
+    unittest.main()
+
+
+
+
+
+(3.) Functional test case for mobile number field
+
+# Import required libraries
+import unittest
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+
+class MobileNumberFieldTest(unittest.TestCase):
+
+    def setUp(self):
+        # Set up the Selenium WebDriver (in this example, Chrome WebDriver)
+        self.driver = webdriver.Chrome()
+        self.base_url = "https://www.hashtag-ca.com/careers/apply?jobcode=QAE001" 
+        self.driver.get(self.base_url)
+
+    def tearDown(self):
+        # Close the browser after each test case
+        self.driver.quit()
+
+    def test_valid_mobile_number(self):
+        # Test Scenario 1: Valid Mobile Number
+        mobile_input = self.driver.find_element_by_id("mobile")
+        mobile_input.send_keys("9876789887")  #  valid mobile number
+        mobile_input.send_keys(Keys.RETURN)
+
+        # Verify that the next step is displayed or the user's mobile number is accepted
+        
+    def test_invalid_mobile_number(self):
+        # Test Scenario 2: Invalid Mobile Number
+        mobile_input = self.driver.find_element_by_id("mobile")
+        mobile_input.send_keys("123456789")  #  invalid mobile number
+        mobile_input.send_keys(Keys.RETURN)
+
+        # Verify that an error message is displayed indicating that the mobile number is invalid
+        
+    def test_empty_mobile_number_field(self):
+        # Test Scenario 3: Empty Mobile Number Field
+        mobile_input = self.driver.find_element_by_id("mobile")
+        mobile_input.send_keys(Keys.RETURN)
+
+        # Verify that an error message is displayed indicating that the mobile number field is required
+        
+    def test_long_mobile_number(self):
+        # Test Scenario 4: Long Mobile Number
+        mobile_input = self.driver.find_element_by_id("mobile")
+        mobile_input.send_keys("123456789012345")  #  mobile number longer than the maximum allowed characters
+        mobile_input.send_keys(Keys.RETURN)
+
+        # Verify that an error message is displayed indicating that the mobile number exceeds the maximum allowed character limit
+       
+    def test_mobile_number_with_special_characters(self):
+        # Test Scenario 5: Mobile Number with Special Characters
+        mobile_input = self.driver.find_element_by_id("mobile")
+        mobile_input.send_keys("123#456@7890")  # mobile number containing special characters
+        mobile_input.send_keys(Keys.RETURN)
+
+        # Verify that an error message is displayed indicating that the mobile number can only contain numeric digits
+        if __name__ == "__main__":
+    unittest.main()
+
+
+
+
+
+
+
+
+
+(4.) Functional test case for resume upload field
+
+# Import required libraries
+import unittest
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+class ResumeUploadFieldTest(unittest.TestCase):
+
+    def setUp(self):
+        # Set up the Selenium WebDriver (in this example, Chrome WebDriver)
+        self.driver = webdriver.Chrome()
+        self.base_url = "https://www.hashtag-ca.com/careers/apply?jobcode=QAE001"  
+        self.driver.get(self.base_url)
+
+    def tearDown(self):
+        # Close the browser after each test case
+        self.driver.quit()
+
+    def test_valid_resume_upload(self):
+        # Test Scenario 1: Valid Resume Upload
+        resume_input = self.driver.find_element_by_id("resume")
+        resume_file_path = "path/to/valid_resume.pdf"  # Replace with the path to a valid resume file on your system
+        resume_input.send_keys(resume_file_path)
+        resume_input.send_keys(Keys.RETURN)
+
+        # Wait for the file to be uploaded and processed (you may need to wait for a specific element to appear or change)
+        
+    def test_invalid_resume_upload(self):
+        # Test Scenario 2: Invalid Resume Upload
+        resume_input = self.driver.find_element_by_id("resume")
+        resume_file_path = "path/to/invalid_resume.docx"  # Replace with the path to an invalid resume file on your system
+        resume_input.send_keys(resume_file_path)
+        resume_input.send_keys(Keys.RETURN)
+
+        # Wait for any error message or validation alert to appear
+        
+    def test_empty_resume_upload(self):
+        # Test Scenario 3: Empty Resume Upload
+        resume_input = self.driver.find_element_by_id("resume")
+        resume_input.send_keys(Keys.RETURN)
+
+        # Wait for any error message or validation alert to appear
+        
+
+    def test_large_resume_file_upload(self):
+        # Test Scenario 4: Large Resume File Upload
+        resume_input = self.driver.find_element_by_id("resume")
+        resume_file_path = "path/to/large_resume.pdf"  # Replace with the path to a large resume file on your system
+        resume_input.send_keys(resume_file_path)
+        resume_input.send_keys(Keys.RETURN)
+
+        # Wait for any error message or validation alert to appear
+        # Add assertions based on your application's behavior to verify that an error message is displayed indicating that the file size exceeds the allowed limit
+
+if __name__ == "__main__":
+    unittest.main()
+
+
+
+
+
+
+(5.) Functional test case for resume upload field
+
+# Import required libraries
+import unittest
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+class ApplyNowButtonTest(unittest.TestCase):
+
+    def setUp(self):
+        # Set up the Selenium WebDriver (in this example, Chrome WebDriver)
+        self.driver = webdriver.Chrome()
+        self.base_url = "https://www.hashtag-ca.com/careers/apply?jobcode=QAE001"  
+        self.driver.get(self.base_url)
+
+    def tearDown(self):
+        # Close the browser after each test case
+        self.driver.quit()
+
+    def test_apply_now_button(self):
+        # Test Scenario: Apply Now Button Functionality
+        apply_now_button = self.driver.find_element_by_xpath("//button[contains(text(),'Apply Now')]")
+        apply_now_button.click()
+
+        # Wait for the new page to load or a specific element on the application's next page to appear
+        
+
+       
+        self.assertTrue("apply_page" in self.driver.current_url)
+
+if __name__ == "__main__":
+    unittest.main()
+
+
+
+
+
+
+
+(6.) Functional test case for resume upload field
+
+# Import required libraries
+import unittest
+from selenium import webdriver
+from selenium.webdriver.support.ui import Select
+
+class DropdownFunctionalityTest(unittest.TestCase):
+
+    def setUp(self):
+        # Set up the Selenium WebDriver (in this example, Chrome WebDriver)
+        self.driver = webdriver.Chrome()
+        self.base_url = "https://www.hashtag-ca.com/careers/apply?jobcode=QAE001"  
+        self.driver.get(self.base_url)
+
+    def tearDown(self):
+        # Close the browser after each test case
+        self.driver.quit()
+
+    def test_dropdown_selection(self):
+        # Test Scenario: Dropdown Selection Functionality
+        dropdown_element = self.driver.find_element_by_id("dropdown_id")  
+        dropdown = Select(dropdown_element)
+
+        # Test Scenario 1: Select option by visible text
+        dropdown.select_by_visible_text("Option 1")
+        selected_option = dropdown.first_selected_option.text
+        self.assertEqual(selected_option, "Option 1")
+
+        # Test Scenario 2: Select option by value attribute
+        dropdown.select_by_value("option_2_value")  
+        selected_option = dropdown.first_selected_option.text
+        self.assertEqual(selected_option, "Option 2")
+
+        # Test Scenario 3: Select option by index (0-based index)
+        dropdown.select_by_index(2) 
+        selected_option = dropdown.first_selected_option.text
+        self.assertEqual(selected_option, "Option 3")
+
+    def test_default_dropdown_value(self):
+        # Test Scenario: Default Dropdown Value
+        dropdown_element = self.driver.find_element_by_id("dropdown_id")  # Replace "dropdown_id" with the actual ID of your dropdown element
+        dropdown = Select(dropdown_element)
+
+        # Test Scenario 4: Verify the default selected value (if any)
+        default_option = dropdown.first_selected_option.text
+        self.assertEqual(default_option, "Default Option")
+
+if __name__ == "__main__":
+    unittest.main()
+
+
+
+
+
+
+
+(7.) Functional test case for header and footer field
+
+# Import required libraries
+import unittest
+from selenium import webdriver
+
+class HeaderFooterTest(unittest.TestCase):
+
+    def setUp(self):
+        # Set up the Selenium WebDriver (in this example, Chrome WebDriver)
+        self.driver = webdriver.Chrome()
+        self.base_url = "https://www.hashtag-ca.com/careers/apply?jobcode=QAE001"  
+        self.driver.get(self.base_url)
+
+    def tearDown(self):
+        # Close the browser after each test case
+        self.driver.quit()
+
+    def test_header_content(self):
+        # Test Scenario: Header Content Verification
+        header_element = self.driver.find_element_by_id("//*[@id="__next"]/div/header")  
+
+        # Test Scenario 1: Verify the presence of logo, navigation links, or any other expected elements in the header
+        logo_element = header_element.find_element_by_id("//*[@id="logo"]")  
+        self.assertTrue(logo_element.is_displayed())
+
+        navigation_links = header_element.find_elements_by_css_selector("#navbarTogglerDemo03 > ul > li:nth-child(2) > a")  
+        self.assertGreater(len(navigation_links), 0)  # Verify that at least one navigation link is present
+
+    def test_footer_content(self):
+        # Test Scenario: Footer Content Verification
+        footer_element = self.driver.find_element_by_id("//*[@id="__next"]/div/footer/div[1]/div/div/div[2]") 
+
+        # Test Scenario 2: Verify the presence of copyright information, contact details, or any other expected elements in the footer
+        copyright_element = footer_element.find_element_by_id("//*[@id="__next"]/div/footer/div[2]/div/div/div[2]/p") 
+        self.assertTrue(copyright_element.is_displayed())
+
+        contact_info = footer_element.find_elements_by_css_selector("//*[@id="__next"]/div/footer/div[1]/div/div/div[2]/div[11]/div/div[2]/p/a")  
+        self.assertGreater(len(contact_info), 0)  # Verify that at least one contact info element is present
+
+    def test_header_links(self):
+        # Test Scenario: Header Links Functionality
+        header_element = self.driver.find_element_by_id("//*[@id="__next"]/div/header")  # Replace "header_id" with the actual ID of your header element
+
+        # Test Scenario 3: Verify the functionality of the navigation links
+        navigation_links = header_element.find_elements_by_css_selector("#navbarTogglerDemo03 > ul > li:nth-child(2) > a")  # Replace "ul.navigation li a" with the CSS selector for your navigation links
+        for link in navigation_links:
+            href = link.get_attribute("href")
+            self.assertIsNotNone(href)  # Verify that the link has an href attribute
+            self.assertNotEqual(href, "")  # Verify that the link's href attribute is not empty
+
+            # You can also click the link and verify that it navigates to the expected page, but that may require additional test scenarios and test cases
+
+    def test_footer_links(self):
+        # Test Scenario: Footer Links Functionality
+        footer_element = self.driver.find_element_by_id("//*[@id="__next"]/div/footer/div[1]/div/div/div[2]")  # Replace "footer_id" with the actual ID of your footer element
+
+        # Test Scenario 4: Verify the functionality of the contact info links or any other links in the footer
+        contact_links = footer_element.find_elements_by_css_selector("//*[@id="__next"]/div/footer/div[1]/div/div/div[2]/div[11]/div/div[2]/p/a")  # Replace "ul.contact-info li a" with the CSS selector for your contact links
+        for link in contact_links:
+            href = link.get_attribute("href")
+            self.assertIsNotNone(href)  # Verify that the link has an href attribute
+            self.assertNotEqual(href, "")  # Verify that the link's href attribute is not empty
+
+            # You can also click the link and verify that it navigates to the expected page or performs the expected action, if applicable
+
+if __name__ == "__main__":
+    unittest.main()
+
+
+
+
+
+(8.) Test cases for UI
+
+# Import required libraries
+import unittest
+from selenium import webdriver
+
+class RegistrationPageUITest(unittest.TestCase):
+
+    def setUp(self):
+        # Set up the Selenium WebDriver (in this example, Chrome WebDriver)
+        self.driver = webdriver.Chrome()
+        self.base_url = "https://www.hashtag-ca.com/careers/apply?jobcode=QAE001"  
+        self.driver.get(self.base_url)
+
+    def tearDown(self):
+        # Close the browser after each test case
+        self.driver.quit()
+
+    def test_page_title(self):
+        # Test Scenario: Verify the page title
+        expected_title = "Hashtag"  # Replace with the expected title of your registration page
+        actual_title = self.driver.title
+        self.assertEqual(actual_title, expected_title)
+
+    def test_registration_form_elements(self):
+        # Test Scenario: Verify the presence of registration form elements
+        full_name_input = self.driver.find_element_by_id("full_name") 
+        email_input = self.driver.find_element_by_id("email")  
+        password_input = self.driver.find_element_by_id("phone")  
+        register_button = self.driver.find_element_by_id(resume")  
+        self.assertTrue(full_name_input.is_displayed())
+        self.assertTrue(email_input.is_displayed())
+        self.assertTrue(phone_input.is_displayed())
+        self.assertTrue(resume_button.is_displayed())
+
+    def test_registration_validations(self):
+        # Test Scenario: Verify registration form validations
+        full_name_input = self.driver.find_element_by_id("full_name")
+        email_input = self.driver.find_element_by_id("email")
+        password_input = self.driver.find_element_by_id("phone")
+        resume_button = self.driver.find_element_by_id("resume")
+
+        # Test Scenario 1: Verify error message when submitting empty form
+        register_button.click()
+        error_message = self.driver.find_element_by_id("error_message")  # Replace "error_message" with the actual ID of the error message element
+        self.assertTrue(error_message.is_displayed())
+
+        # Test Scenario 2: Verify error message when submitting an invalid email
+        full_name_input.send_keys("John Doe")
+        email_input.send_keys("invalid_email")
+        password_input.send_keys("valid_password")
+        register_button.click()
+        error_message = self.driver.find_element_by_id("error_message")
+        self.assertTrue(error_message.is_displayed())
+
+    def test_successful_registration(self):
+        # Test Scenario: Verify successful registration
+        full_name_input = self.driver.find_element_by_id("full_name")
+        email_input = self.driver.find_element_by_id("email")
+        password_input = self.driver.find_element_by_id("password")
+        register_button = self.driver.find_element_by_id("register_btn")
+
+        full_name_input.send_keys("palak sachdeva")
+        email_input.send_keys("palaksachdeva050@gmail.com")
+        phone_input.send_keys("9479347130")
+        register_button.click()
+
+        # Wait for the next page to load or a specific element on the dashboard/home page to appear
+        # Add assertions based on your application's behavior to verify that the user is successfully registered
+
+if __name__ == "__main__":
+    unittest.main()
+
+
+
+
+
